@@ -1,7 +1,9 @@
 /* Import Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=Montserrat:wght@600;700;800&display=swap");
 
-/* Tema 1: Ciudadano */
+/* =========================================
+   TEMA 1: CIUDADANO
+   ========================================= */
 .theme-ciudadano {
     --bg: #F6FBFF;
     --surface: #FFFFFF;
@@ -21,9 +23,50 @@
     --font-display: "Nunito", system-ui, -apple-system, Segoe UI, sans-serif;
 
     --card-shadow: var(--shadow-soft);
+    --radius-lg: 16px;
+    --radius-md: 12px;
 }
 
-/* Tema 2: Técnico */
+/* Variant A: Agua Cerca */
+.theme-ciudadano.variant-agua-cerca {
+    --brand: #2E8FC8;
+    --brand-soft: #A9DFF3;
+    --accent: #FFCB6B;
+    --radius-lg: 20px;
+    --radius-md: 16px;
+}
+
+.theme-ciudadano.variant-agua-cerca .btn.primary {
+    border-radius: 999px;
+}
+
+/* Variant B: Embalses en Claro */
+.theme-ciudadano.variant-embalses-claro {
+    --bg: #FFFFFF;
+    --surface-2: #F3F7FA;
+    --text: #081827;
+    --font-display: "Source Sans 3", system-ui, sans-serif;
+    --space-5: 28px;
+}
+
+/* Variant C: El Mapa del Agua */
+.theme-ciudadano.variant-mapa-agua {
+    --accent: #2FBF9B;
+    --accent-soft: #BFEDE0;
+    --font-display: "Montserrat", system-ui, sans-serif;
+}
+
+.theme-ciudadano.variant-mapa-agua .map {
+    height: 380px;
+}
+
+.theme-ciudadano.variant-mapa-agua .btn.ghost {
+    border-width: 2px;
+}
+
+/* =========================================
+   TEMA 2: TÉCNICO
+   ========================================= */
 .theme-tecnico {
     --bg: #050A12;
     --surface: #0B1320;
@@ -40,12 +83,69 @@
     --on-brand: #03131A;
 
     --font-body: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
-    --font-display: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-display: "JetBrains Mono", ui-monospace, monospace;
 
     --card-shadow: var(--shadow-hard);
+    --radius-lg: 4px;
+    /* Default sharper for tech */
+    --radius-md: 4px;
 }
 
-/* Tema 3: Institucional */
+/* Variant A: Hidrodata */
+.theme-tecnico.variant-hidrodata {
+    --brand: #2BC3E8;
+    --accent: #5F7DFF;
+    --font-display: "Inter", system-ui, sans-serif;
+}
+
+.theme-tecnico.variant-hidrodata .card {
+    padding: var(--space-4);
+}
+
+/* Variant B: Nivel Hídrico */
+.theme-tecnico.variant-nivel-hidrico {
+    --brand: #60D7E8;
+    --accent: #9AA7B8;
+    --radius-lg: 10px;
+    --radius-md: 8px;
+}
+
+.theme-tecnico.variant-nivel-hidrico .btn.primary {
+    box-shadow: none;
+}
+
+/* Variant C: BluePulse */
+.theme-tecnico.variant-bluepulse .progress-fill {
+    background: linear-gradient(90deg, var(--brand), #00FFA3);
+}
+
+.theme-tecnico.variant-bluepulse .card-title {
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+@keyframes pulse-glow {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.theme-tecnico.variant-bluepulse .map-chip,
+.theme-tecnico.variant-bluepulse .pill {
+    animation: pulse-glow 2s infinite ease-in-out;
+}
+
+/* =========================================
+   TEMA 3: INSTITUCIONAL
+   ========================================= */
 .theme-institucional {
     --bg: #F4F6F8;
     --surface: #FFFFFF;
@@ -65,4 +165,34 @@
     --font-display: "Montserrat", system-ui, -apple-system, Segoe UI, sans-serif;
 
     --card-shadow: var(--shadow-soft);
+    --radius-lg: 8px;
+    --radius-md: 6px;
+}
+
+/* Variant A: Observatorio del Agua */
+.theme-institucional.variant-observatorio {
+    --brand: #002F5E;
+    --accent: #0A6F63;
+}
+
+.theme-institucional.variant-observatorio .header {
+    background-color: var(--surface);
+    border-bottom: 2px solid var(--brand);
+}
+
+/* Variant B: Estado de Embalses */
+.theme-institucional.variant-estado {
+    --accent: #5C7A99;
+    --font-display: "Source Sans 3", system-ui, sans-serif;
+    --radius-lg: 12px;
+}
+
+/* Variant C: Agua Pública */
+.theme-institucional.variant-agua-publica {
+    --bg: #F7FAFC;
+    --accent: #12A892;
+}
+
+.theme-institucional.variant-agua-publica .btn.primary {
+    border-radius: 999px;
 }

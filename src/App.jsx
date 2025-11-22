@@ -5,16 +5,31 @@ const THEMES = [
     id: "ciudadano",
     name: "Ciudadano",
     description: "Amigable, educativo, luminoso",
+    variants: [
+      { id: "agua-cerca", name: "Agua Cerca", description: "Cálido, de barrio, cercano" },
+      { id: "embalses-claro", name: "Embalses en Claro", description: "Educativo, didáctico, limpio" },
+      { id: "mapa-agua", name: "El Mapa del Agua", description: "Exploración, viaje, guía" },
+    ],
   },
   {
     id: "tecnico",
     name: "Técnico",
     description: "Dashboard oscuro, datos, high-tech",
+    variants: [
+      { id: "hidrodata", name: "Hidrodata", description: "Rigor, datos, precisión" },
+      { id: "nivel-hidrico", name: "Nivel Hídrico", description: "Sobrio, sin ruido" },
+      { id: "bluepulse", name: "BluePulse", description: "Tecnológico, dinámico, señal" },
+    ],
   },
   {
     id: "institucional",
     name: "Institucional",
     description: "Oficial, sobrio, sólido",
+    variants: [
+      { id: "observatorio", name: "Observatorio", description: "Autoridad moderna" },
+      { id: "estado", name: "Estado", description: "Directo, informativo, neutral" },
+      { id: "agua-publica", name: "Agua Pública", description: "Transparencia y civismo" },
+    ],
   },
 ];
 
@@ -37,8 +52,18 @@ function pct(current, total) {
 }
 
 export default function App() {
-  const [theme, setTheme] = useState(THEMES[0].id);
+  const [themeId, setThemeId] = useState(THEMES[0].id);
+  const [variantId, setVariantId] = useState(THEMES[0].variants[0].id);
   const [selected, setSelected] = useState(reservoirsMock[0]);
+
+  const currentTheme = THEMES.find((t) => t.id === themeId) || THEMES[0];
+  const currentVariant = currentTheme.variants.find((v) => v.id === variantId) || currentTheme.variants[0];
+
+  const handleSetTheme = (newThemeId) => {
+    const newTheme = THEMES.find((t) => t.id === newThemeId);
+    setThemeId(newThemeId);
+    setVariantId(newTheme.variants[0].id);
+  };
 
   const selectedPct = useMemo(
     () => pct(selected.current, selected.total).toFixed(1),
@@ -46,13 +71,17 @@ export default function App() {
   );
 
   return (
-    <div className={`app theme-${theme}`}>
+    <div className={`app theme-${themeId} variant-${variantId}`}>
       <Header
-        theme={theme}
-        setTheme={setTheme}
+        themeId={themeId}
+        setThemeId={handleSetTheme}
+        variantId={variantId}
+        setVariantId={setVariantId}
+        currentTheme={currentTheme}
       />
 
       <main className="container">
+        <Hero theme={currentTheme} variant={currentVariant} />
         <section className="kpi-grid">
           {kpisMock.map((k) => (
             <KpiCard key={k.label} {...k} />
@@ -153,7 +182,7 @@ export default function App() {
   );
 }
 
-function Header({ theme, setTheme }) {
+function Header({ themeId, setThemeId, variantId, setVariantId, currentTheme }) {
   return (
     <header className="header">
       <div className="header-left">
@@ -165,31 +194,75 @@ function Header({ theme, setTheme }) {
       </div>
 
       <div className="header-right">
-        <ThemeSelector theme={theme} setTheme={setTheme} />
+        <ThemeSelector
+          themeId={themeId}
+          setThemeId={setThemeId}
+          variantId={variantId}
+          setVariantId={setVariantId}
+          currentTheme={currentTheme}
+        />
       </div>
     </header>
   );
 }
 
-function ThemeSelector({ theme, setTheme }) {
+function ThemeSelector({ themeId, setThemeId, variantId, setVariantId, currentTheme }) {
   return (
-    <div className="theme-selector">
-      <label className="theme-label">Estilo</label>
-      <div className="theme-tabs" role="tablist" aria-label="Selector de estilo">
-        {THEMES.map((t) => (
-          <button
-            key={t.id}
-            role="tab"
-            aria-selected={theme === t.id}
-            className={`theme-tab ${theme === t.id ? "active" : ""}`}
-            onClick={() => setTheme(t.id)}
-            title={t.description}
-          >
-            {t.name}
-          </button>
-        ))}
+    <div className="theme-selector-container">
+      <div className="theme-selector">
+        <label className="theme-label">Estilo</label>
+        <div className="theme-tabs" role="tablist" aria-label="Selector de estilo">
+          {THEMES.map((t) => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={themeId === t.id}
+              className={`theme-tab ${themeId === t.id ? "active" : ""}`}
+              onClick={() => setThemeId(t.id)}
+              title={t.description}
+            >
+              {t.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="variant-selector">
+        <label className="theme-label">Variante</label>
+        <div className="variant-tabs" role="tablist" aria-label="Selector de variante">
+          {currentTheme.variants.map((v) => (
+            <button
+              key={v.id}
+              role="tab"
+              aria-selected={variantId === v.id}
+              className={`variant-tab ${variantId === v.id ? "active" : ""}`}
+              onClick={() => setVariantId(v.id)}
+              title={v.description}
+            >
+              {v.name}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
+  );
+}
+
+function Hero({ theme, variant }) {
+  return (
+    <section className="hero">
+      <div className="hero-content">
+        <h1 className="hero-title">
+          Visión <span className="hero-highlight">{theme.name}</span>
+        </h1>
+        <p className="hero-subtitle">
+          Modo: <strong>{variant.name}</strong> — {variant.description}
+        </p>
+        <p className="hero-desc">
+          Explora el estado de los embalses con una interfaz adaptada a tus necesidades.
+        </p>
+      </div>
+    </section>
   );
 }
 
