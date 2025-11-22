@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     BarChart,
     Bar,
@@ -25,7 +25,53 @@ import {
     pieData,
 } from "../data/mockData";
 
-const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
+// Hook to get theme colors from CSS variables
+const useThemeColors = () => {
+    const [colors, setColors] = useState(() => {
+        const appElement = document.querySelector('.app');
+        const style = getComputedStyle(appElement || document.documentElement);
+        return {
+            primary: style.getPropertyValue('--chart-primary').trim() || '#3b82f6',
+            secondary: style.getPropertyValue('--chart-secondary').trim() || '#10b981',
+            tertiary: style.getPropertyValue('--chart-tertiary').trim() || '#f59e0b',
+            quaternary: style.getPropertyValue('--chart-quaternary').trim() || '#ef4444',
+            quinary: style.getPropertyValue('--chart-quinary').trim() || '#8b5cf6',
+            grid: style.getPropertyValue('--chart-grid').trim() || 'rgba(255,255,255,0.05)',
+            axis: style.getPropertyValue('--chart-axis').trim() || '#64748b',
+        };
+    });
+
+    useEffect(() => {
+        const updateColors = () => {
+            const appElement = document.querySelector('.app');
+            const style = getComputedStyle(appElement || document.documentElement);
+            setColors({
+                primary: style.getPropertyValue('--chart-primary').trim() || '#3b82f6',
+                secondary: style.getPropertyValue('--chart-secondary').trim() || '#10b981',
+                tertiary: style.getPropertyValue('--chart-tertiary').trim() || '#f59e0b',
+                quaternary: style.getPropertyValue('--chart-quaternary').trim() || '#ef4444',
+                quinary: style.getPropertyValue('--chart-quinary').trim() || '#8b5cf6',
+                grid: style.getPropertyValue('--chart-grid').trim() || 'rgba(255,255,255,0.05)',
+                axis: style.getPropertyValue('--chart-axis').trim() || '#64748b',
+            });
+        };
+
+        // Watch for class changes on the app element (which trigger theme changes)
+        const observer = new MutationObserver(updateColors);
+        const appElement = document.querySelector('.app');
+
+        if (appElement) {
+            observer.observe(appElement, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    return colors;
+};
 
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -45,6 +91,9 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function ChartsView() {
+    const colors = useThemeColors();
+    const COLORS = [colors.primary, colors.secondary, colors.tertiary, colors.quaternary, colors.quinary];
+
     return (
         <div className="charts-view">
             <div className="section-header">
@@ -66,20 +115,20 @@ export default function ChartsView() {
                             <AreaChart data={historicalData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                                        <stop offset="5%" stopColor={colors.primary} stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor={colors.primary} stopOpacity={0} />
                                     </linearGradient>
                                     <linearGradient id="colorAvg" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#94a3b8" stopOpacity={0} />
+                                        <stop offset="5%" stopColor={colors.axis} stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor={colors.axis} stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                                <XAxis dataKey="week" stroke="#64748b" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#64748b" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                                <CartesianGrid strokeDasharray="3 3" stroke={colors.grid} vertical={false} />
+                                <XAxis dataKey="week" stroke={colors.axis} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                                <YAxis stroke={colors.axis} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
                                 <Tooltip content={<CustomTooltip />} />
-                                <Area type="monotone" dataKey="2024" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorCurrent)" name="Año Actual" unit="%" />
-                                <Area type="monotone" dataKey="average" stroke="#94a3b8" strokeWidth={2} strokeDasharray="4 4" fill="url(#colorAvg)" name="Media Histórica" unit="%" />
+                                <Area type="monotone" dataKey="2024" stroke={colors.primary} strokeWidth={3} fillOpacity={1} fill="url(#colorCurrent)" name="Año Actual" unit="%" />
+                                <Area type="monotone" dataKey="average" stroke={colors.axis} strokeWidth={2} strokeDasharray="4 4" fill="url(#colorAvg)" name="Media Histórica" unit="%" />
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
@@ -133,12 +182,12 @@ export default function ChartsView() {
                     <div className="chart-container">
                         <ResponsiveContainer width="100%" height={350}>
                             <BarChart data={basinData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }} barSize={40}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                                <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#64748b" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-                                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-                                <Bar dataKey="current" name="Agua Actual" stackId="a" fill="#3b82f6" radius={[0, 0, 4, 4]} />
-                                <Bar dataKey="capacity" name="Capacidad Restante" stackId="a" fill="#1e293b" radius={[4, 4, 0, 0]} />
+                                <CartesianGrid strokeDasharray="3 3" stroke={colors.grid} vertical={false} />
+                                <XAxis dataKey="name" stroke={colors.axis} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                                <YAxis stroke={colors.axis} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+                                <Tooltip content={<CustomTooltip />} cursor={{ fill: colors.grid }} />
+                                <Bar dataKey="current" name="Agua Actual" stackId="a" fill={colors.primary} radius={[0, 0, 4, 4]} />
+                                <Bar dataKey="capacity" name="Capacidad Restante" stackId="a" fill={colors.secondary} opacity={0.3} radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -155,14 +204,14 @@ export default function ChartsView() {
                     <div className="chart-container">
                         <ResponsiveContainer width="100%" height={300}>
                             <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                                <CartesianGrid stroke="rgba(255,255,255,0.05)" />
-                                <XAxis type="number" dataKey="capacity" name="Capacidad" stroke="#64748b" tickLine={false} axisLine={false} unit=" hm³" />
-                                <YAxis type="number" dataKey="fillPct" name="% Llenado" stroke="#64748b" tickLine={false} axisLine={false} unit="%" />
+                                <CartesianGrid stroke={colors.grid} />
+                                <XAxis type="number" dataKey="capacity" name="Capacidad" stroke={colors.axis} tickLine={false} axisLine={false} unit=" hm³" />
+                                <YAxis type="number" dataKey="fillPct" name="% Llenado" stroke={colors.axis} tickLine={false} axisLine={false} unit="%" />
                                 <ZAxis type="number" dataKey="current" range={[100, 1000]} name="Volumen" />
                                 <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
-                                <Scatter name="Embalses" data={reservoirBubbleData} fill="#8884d8">
+                                <Scatter name="Embalses" data={reservoirBubbleData} fill={colors.primary}>
                                     {reservoirBubbleData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fillPct < 30 ? "#ef4444" : entry.fillPct > 70 ? "#10b981" : "#f59e0b"} />
+                                        <Cell key={`cell-${index}`} fill={entry.fillPct < 30 ? colors.quaternary : entry.fillPct > 70 ? colors.tertiary : colors.secondary} />
                                     ))}
                                 </Scatter>
                             </ScatterChart>
@@ -179,7 +228,7 @@ export default function ChartsView() {
                         </div>
                     </div>
                     <div className="chart-container">
-                        <SpainMapMock />
+                        <SpainMapMock colors={colors} />
                     </div>
                 </div>
 
@@ -195,8 +244,8 @@ export default function ChartsView() {
                         <ResponsiveContainer width="100%" height={400}>
                             <Sankey
                                 data={sankeyData}
-                                node={{ stroke: 'none', fill: '#8b5cf6', width: 10 }}
-                                link={{ stroke: '#3b82f6', strokeOpacity: 0.2 }}
+                                node={{ stroke: 'none', fill: colors.quinary, width: 10 }}
+                                link={{ stroke: colors.primary, strokeOpacity: 0.2 }}
                                 nodePadding={50}
                                 margin={{ left: 20, right: 20, top: 20, bottom: 20 }}
                             >
@@ -210,7 +259,7 @@ export default function ChartsView() {
     );
 }
 
-function SpainMapMock() {
+function SpainMapMock({ colors }) {
     return (
         <div className="spain-map-mock">
             <svg viewBox="0 0 300 250" className="spain-svg">
@@ -220,28 +269,28 @@ function SpainMapMock() {
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
                     </filter>
                 </defs>
-                <path d="M50,20 L120,20 L140,50 L100,80 L40,60 Z" fill="#3b82f6" opacity="0.8" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M50,20 L120,20 L140,50 L100,80 L40,60 Z" fill={colors.primary} opacity="0.8" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Galicia / Cantábrico</title>
                 </path>
-                <path d="M120,20 L200,20 L220,60 L180,90 L140,50 Z" fill="#60a5fa" opacity="0.6" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M120,20 L200,20 L220,60 L180,90 L140,50 Z" fill={colors.primary} opacity="0.6" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Ebro / Pirineos</title>
                 </path>
-                <path d="M40,60 L100,80 L110,130 L30,110 Z" fill="#93c5fd" opacity="0.7" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M40,60 L100,80 L110,130 L30,110 Z" fill={colors.tertiary} opacity="0.7" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Duero</title>
                 </path>
-                <path d="M100,80 L180,90 L190,140 L110,130 Z" fill="#2563eb" opacity="0.5" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M100,80 L180,90 L190,140 L110,130 Z" fill={colors.secondary} opacity="0.5" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Tajo</title>
                 </path>
-                <path d="M180,90 L220,60 L250,120 L200,160 L190,140 Z" fill="#ef4444" opacity="0.8" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M180,90 L220,60 L250,120 L200,160 L190,140 Z" fill={colors.quaternary} opacity="0.8" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Levante / Júcar</title>
                 </path>
-                <path d="M30,110 L110,130 L120,180 L50,170 Z" fill="#eab308" opacity="0.6" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M30,110 L110,130 L120,180 L50,170 Z" fill={colors.secondary} opacity="0.6" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Guadiana</title>
                 </path>
-                <path d="M50,170 L120,180 L140,220 L70,210 Z" fill="#f97316" opacity="0.7" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M50,170 L120,180 L140,220 L70,210 Z" fill={colors.tertiary} opacity="0.7" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Guadalquivir</title>
                 </path>
-                <path d="M120,180 L200,160 L180,210 L140,220 Z" fill="#ef4444" opacity="0.9" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
+                <path d="M120,180 L200,160 L180,210 L140,220 Z" fill={colors.quaternary} opacity="0.9" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
                     <title>Sur / Segura</title>
                 </path>
             </svg>

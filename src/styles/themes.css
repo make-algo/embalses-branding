@@ -19,6 +19,15 @@
 
     --on-brand: #FFFFFF;
 
+    /* Chart colors */
+    --chart-primary: #2E9DD8;
+    --chart-secondary: #FFC857;
+    --chart-tertiary: #2FBF9B;
+    --chart-quaternary: #FF8A5B;
+    --chart-quinary: #9B59B6;
+    --chart-grid: rgba(43, 157, 216, 0.1);
+    --chart-axis: #7A8FA3;
+
     --font-body: "Nunito", system-ui, -apple-system, Segoe UI, sans-serif;
     --font-display: "Nunito", system-ui, -apple-system, Segoe UI, sans-serif;
 
@@ -27,33 +36,75 @@
     --radius-md: 12px;
 }
 
-/* Variant A: Agua Cerca */
+/* Variant A: Agua Cerca - Warm Ocean Palette */
 .theme-ciudadano.variant-agua-cerca {
     --brand: #2E8FC8;
     --brand-soft: #A9DFF3;
     --accent: #FFCB6B;
     --radius-lg: 20px;
     --radius-md: 16px;
+
+    /* Chart colors - Warm ocean tones */
+    --chart-primary: #FF6B35;
+    /* Coral orange */
+    --chart-secondary: #F7B801;
+    /* Golden yellow */
+    --chart-tertiary: #00D9FF;
+    /* Bright cyan */
+    --chart-quaternary: #FF1654;
+    /* Hot pink */
+    --chart-quinary: #A06CD5;
+    /* Lavender */
+    --chart-grid: rgba(255, 107, 53, 0.12);
+    --chart-axis: #8B7355;
 }
 
 .theme-ciudadano.variant-agua-cerca .btn.primary {
     border-radius: 999px;
 }
 
-/* Variant B: Embalses en Claro */
+/* Variant B: Embalses en Claro - Fresh Spring Palette */
 .theme-ciudadano.variant-embalses-claro {
     --bg: #FFFFFF;
     --surface-2: #F3F7FA;
     --text: #081827;
     --font-display: "Source Sans 3", system-ui, sans-serif;
     --space-5: 28px;
+
+    /* Chart colors - Fresh spring greens and blues */
+    --chart-primary: #10B981;
+    /* Emerald green */
+    --chart-secondary: #06B6D4;
+    /* Cyan */
+    --chart-tertiary: #84CC16;
+    /* Lime green */
+    --chart-quaternary: #14B8A6;
+    /* Teal */
+    --chart-quinary: #22D3EE;
+    /* Sky blue */
+    --chart-grid: rgba(16, 185, 129, 0.1);
+    --chart-axis: #64748B;
 }
 
-/* Variant C: El Mapa del Agua */
+/* Variant C: El Mapa del Agua - Sunset Palette */
 .theme-ciudadano.variant-mapa-agua {
     --accent: #2FBF9B;
     --accent-soft: #BFEDE0;
     --font-display: "Montserrat", system-ui, sans-serif;
+
+    /* Chart colors - Warm sunset tones */
+    --chart-primary: #F59E0B;
+    /* Amber */
+    --chart-secondary: #EF4444;
+    /* Red */
+    --chart-tertiary: #EC4899;
+    /* Pink */
+    --chart-quaternary: #8B5CF6;
+    /* Purple */
+    --chart-quinary: #F97316;
+    /* Orange */
+    --chart-grid: rgba(245, 158, 11, 0.12);
+    --chart-axis: #92400E;
 }
 
 .theme-ciudadano.variant-mapa-agua .map {
@@ -82,6 +133,15 @@
 
     --on-brand: #03131A;
 
+    /* Chart colors */
+    --chart-primary: #00E5FF;
+    --chart-secondary: #7C4DFF;
+    --chart-tertiary: #00FFA3;
+    --chart-quaternary: #FF6B9D;
+    --chart-quinary: #FFC107;
+    --chart-grid: rgba(0, 229, 255, 0.08);
+    --chart-axis: #5A7A9A;
+
     --font-body: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
     --font-display: "JetBrains Mono", ui-monospace, monospace;
 
@@ -91,30 +151,74 @@
     --radius-md: 4px;
 }
 
-/* Variant A: Hidrodata */
+/* Variant A: Hidrodata - Electric Neon Palette */
 .theme-tecnico.variant-hidrodata {
     --brand: #2BC3E8;
     --accent: #5F7DFF;
     --font-display: "Inter", system-ui, sans-serif;
+
+    /* Chart colors - Electric neon */
+    --chart-primary: #00FFF0;
+    /* Neon cyan */
+    --chart-secondary: #FF00FF;
+    /* Magenta */
+    --chart-tertiary: #00FF41;
+    /* Neon green */
+    --chart-quaternary: #FF0080;
+    /* Hot pink */
+    --chart-quinary: #FFFF00;
+    /* Electric yellow */
+    --chart-grid: rgba(0, 255, 240, 0.1);
+    --chart-axis: #4DD0E1;
 }
 
 .theme-tecnico.variant-hidrodata .card {
     padding: var(--space-4);
 }
 
-/* Variant B: Nivel Hídrico */
+/* Variant B: Nivel Hídrico - Deep Ocean Palette */
 .theme-tecnico.variant-nivel-hidrico {
     --brand: #60D7E8;
     --accent: #9AA7B8;
     --radius-lg: 10px;
     --radius-md: 8px;
+
+    /* Chart colors - Deep ocean blues */
+    --chart-primary: #1E3A8A;
+    /* Deep blue */
+    --chart-secondary: #0EA5E9;
+    /* Sky blue */
+    --chart-tertiary: #06B6D4;
+    /* Cyan */
+    --chart-quaternary: #3B82F6;
+    /* Blue */
+    --chart-quinary: #6366F1;
+    /* Indigo */
+    --chart-grid: rgba(30, 58, 138, 0.15);
+    --chart-axis: #7DD3FC;
 }
 
 .theme-tecnico.variant-nivel-hidrico .btn.primary {
     box-shadow: none;
 }
 
-/* Variant C: BluePulse */
+/* Variant C: BluePulse - Cyberpunk Palette */
+.theme-tecnico.variant-bluepulse {
+    /* Chart colors - Cyberpunk neon */
+    --chart-primary: #FF006E;
+    /* Neon pink */
+    --chart-secondary: #8338EC;
+    /* Purple */
+    --chart-tertiary: #3A86FF;
+    /* Blue */
+    --chart-quaternary: #FB5607;
+    /* Orange */
+    --chart-quinary: #FFBE0B;
+    /* Yellow */
+    --chart-grid: rgba(255, 0, 110, 0.1);
+    --chart-axis: #B388FF;
+}
+
 .theme-tecnico.variant-bluepulse .progress-fill {
     background: linear-gradient(90deg, var(--brand), #00FFA3);
 }
@@ -161,6 +265,15 @@
 
     --on-brand: #FFFFFF;
 
+    /* Chart colors */
+    --chart-primary: #003B73;
+    --chart-secondary: #0E8C7C;
+    --chart-tertiary: #5C7A99;
+    --chart-quaternary: #D4A574;
+    --chart-quinary: #8B4789;
+    --chart-grid: rgba(0, 59, 115, 0.1);
+    --chart-axis: #6B7F95;
+
     --font-body: "Source Sans 3", system-ui, -apple-system, Segoe UI, sans-serif;
     --font-display: "Montserrat", system-ui, -apple-system, Segoe UI, sans-serif;
 
@@ -169,10 +282,24 @@
     --radius-md: 6px;
 }
 
-/* Variant A: Observatorio del Agua */
+/* Variant A: Observatorio - Professional Navy Palette */
 .theme-institucional.variant-observatorio {
     --brand: #002F5E;
     --accent: #0A6F63;
+
+    /* Chart colors - Professional navy and earth tones */
+    --chart-primary: #1E40AF;
+    /* Navy blue */
+    --chart-secondary: #059669;
+    /* Forest green */
+    --chart-tertiary: #D97706;
+    /* Amber */
+    --chart-quaternary: #7C2D12;
+    /* Brown */
+    --chart-quinary: #4C1D95;
+    /* Deep purple */
+    --chart-grid: rgba(30, 64, 175, 0.12);
+    --chart-axis: #475569;
 }
 
 .theme-institucional.variant-observatorio .header {
@@ -180,17 +307,45 @@
     border-bottom: 2px solid var(--brand);
 }
 
-/* Variant B: Estado de Embalses */
+/* Variant B: Estado - Monochrome Palette */
 .theme-institucional.variant-estado {
     --accent: #5C7A99;
     --font-display: "Source Sans 3", system-ui, sans-serif;
     --radius-lg: 12px;
+
+    /* Chart colors - Monochrome grays and blues */
+    --chart-primary: #475569;
+    /* Slate */
+    --chart-secondary: #64748B;
+    /* Gray */
+    --chart-tertiary: #94A3B8;
+    /* Light gray */
+    --chart-quaternary: #334155;
+    /* Dark slate */
+    --chart-quinary: #1E293B;
+    /* Darker slate */
+    --chart-grid: rgba(71, 85, 105, 0.15);
+    --chart-axis: #94A3B8;
 }
 
-/* Variant C: Agua Pública */
+/* Variant C: Agua Pública - Eco Green Palette */
 .theme-institucional.variant-agua-publica {
     --bg: #F7FAFC;
     --accent: #12A892;
+
+    /* Chart colors - Eco greens and earth tones */
+    --chart-primary: #047857;
+    /* Emerald */
+    --chart-secondary: #0D9488;
+    /* Teal */
+    --chart-tertiary: #65A30D;
+    /* Lime */
+    --chart-quaternary: #CA8A04;
+    /* Yellow */
+    --chart-quinary: #15803D;
+    /* Green */
+    --chart-grid: rgba(4, 120, 87, 0.1);
+    --chart-axis: #166534;
 }
 
 .theme-institucional.variant-agua-publica .btn.primary {
