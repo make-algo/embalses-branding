@@ -1,0 +1,68 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=Montserrat:wght@600;700;800&display=swap");
+
+/* Tema 1: Ciudadano */
+.theme-ciudadano {
+    --bg: #F6FBFF;
+    --surface: #FFFFFF;
+    --surface-2: #ECF7FF;
+    --border: #D3E9F8;
+    --text: #0B1C2C;
+
+    --brand: #2E9DD8;
+    --brand-soft: #9AD9F2;
+    --brand-very-soft: #E2F3FB;
+    --accent: #FFC857;
+    --accent-soft: #FFE4A8;
+
+    --on-brand: #FFFFFF;
+
+    --font-body: "Nunito", system-ui, -apple-system, Segoe UI, sans-serif;
+    --font-display: "Nunito", system-ui, -apple-system, Segoe UI, sans-serif;
+
+    --card-shadow: var(--shadow-soft);
+}
+
+/* Tema 2: Técnico */
+.theme-tecnico {
+    --bg: #050A12;
+    --surface: #0B1320;
+    --surface-2: #111B2B;
+    --border: #1D2B44;
+    --text: #E6F1FF;
+
+    --brand: #00E5FF;
+    --brand-soft: #1E6C78;
+    --brand-very-soft: #0E2530;
+    --accent: #7C4DFF;
+    --accent-soft: #2A1F5E;
+
+    --on-brand: #03131A;
+
+    --font-body: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+    --font-display: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --card-shadow: var(--shadow-hard);
+}
+
+/* Tema 3: Institucional */
+.theme-institucional {
+    --bg: #F4F6F8;
+    --surface: #FFFFFF;
+    --surface-2: #F0F3F6;
+    --border: #D7DEE6;
+    --text: #0A1A2A;
+
+    --brand: #003B73;
+    --brand-soft: #7AA5C8;
+    --brand-very-soft: #E7EFF6;
+    --accent: #0E8C7C;
+    --accent-soft: #BFE7E1;
+
+    --on-brand: #FFFFFF;
+
+    --font-body: "Source Sans 3", system-ui, -apple-system, Segoe UI, sans-serif;
+    --font-display: "Montserrat", system-ui, -apple-system, Segoe UI, sans-serif;
+
+    --card-shadow: var(--shadow-soft);
+}
