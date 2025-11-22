@@ -6,9 +6,24 @@ const THEMES = [
     name: "Ciudadano",
     description: "Amigable, educativo, luminoso",
     variants: [
-      { id: "agua-cerca", name: "Agua Cerca", description: "Cálido, de barrio, cercano" },
-      { id: "embalses-claro", name: "Embalses en Claro", description: "Educativo, didáctico, limpio" },
-      { id: "mapa-agua", name: "El Mapa del Agua", description: "Exploración, viaje, guía" },
+      {
+        id: "agua-cerca",
+        name: "Agua Cerca",
+        headline: "Cálido, de barrio, cercano",
+        text: "Información accesible sobre el estado de tus embalses locales, diseñada para conectar con tu entorno."
+      },
+      {
+        id: "embalses-claro",
+        name: "Embalses en Claro",
+        headline: "Educativo, didáctico, limpio",
+        text: "Datos simplificados y visualizaciones claras para entender la situación hídrica de un vistazo."
+      },
+      {
+        id: "mapa-agua",
+        name: "El Mapa del Agua",
+        headline: "Exploración, viaje, guía",
+        text: "Navega por la geografía de nuestros recursos hídricos y descubre el estado de cada cuenca."
+      },
     ],
   },
   {
@@ -16,9 +31,24 @@ const THEMES = [
     name: "Técnico",
     description: "Dashboard oscuro, datos, high-tech",
     variants: [
-      { id: "hidrodata", name: "Hidrodata", description: "Rigor, datos, precisión" },
-      { id: "nivel-hidrico", name: "Nivel Hídrico", description: "Sobrio, sin ruido" },
-      { id: "bluepulse", name: "BluePulse", description: "Tecnológico, dinámico, señal" },
+      {
+        id: "hidrodata",
+        name: "Hidrodata",
+        headline: "Rigor, datos, precisión",
+        text: "Análisis detallado con métricas precisas y series temporales para profesionales del sector."
+      },
+      {
+        id: "nivel-hidrico",
+        name: "Nivel Hídrico",
+        headline: "Sobrio, sin ruido",
+        text: "Monitorización esencial de niveles y capacidades sin distracciones visuales."
+      },
+      {
+        id: "bluepulse",
+        name: "BluePulse",
+        headline: "Tecnológico, dinámico, señal",
+        text: "Visualización avanzada en tiempo real con indicadores dinámicos y alertas de estado."
+      },
     ],
   },
   {
@@ -26,9 +56,24 @@ const THEMES = [
     name: "Institucional",
     description: "Oficial, sobrio, sólido",
     variants: [
-      { id: "observatorio", name: "Observatorio", description: "Autoridad moderna" },
-      { id: "estado", name: "Estado", description: "Directo, informativo, neutral" },
-      { id: "agua-publica", name: "Agua Pública", description: "Transparencia y civismo" },
+      {
+        id: "observatorio",
+        name: "Observatorio",
+        headline: "Autoridad moderna",
+        text: "Plataforma oficial de seguimiento hidrológico nacional y gestión de recursos."
+      },
+      {
+        id: "estado",
+        name: "Estado",
+        headline: "Directo, informativo, neutral",
+        text: "Informe ejecutivo actualizado sobre las reservas hídricas y su evolución histórica."
+      },
+      {
+        id: "agua-publica",
+        name: "Agua Pública",
+        headline: "Transparencia y civismo",
+        text: "Portal de transparencia para la gestión sostenible de los recursos comunes."
+      },
     ],
   },
 ];
@@ -252,15 +297,9 @@ function Hero({ theme, variant }) {
   return (
     <section className="hero">
       <div className="hero-content">
-        <h1 className="hero-title">
-          Visión <span className="hero-highlight">{theme.name}</span>
-        </h1>
-        <p className="hero-subtitle">
-          Modo: <strong>{variant.name}</strong> — {variant.description}
-        </p>
-        <p className="hero-desc">
-          Explora el estado de los embalses con una interfaz adaptada a tus necesidades.
-        </p>
+        <h1 className="hero-title">{variant.name}</h1>
+        <h2 className="hero-subtitle">{variant.headline}</h2>
+        <h3 className="hero-desc">{variant.text}</h3>
       </div>
     </section>
   );
