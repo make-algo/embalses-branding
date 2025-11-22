@@ -96,10 +96,13 @@ function pct(current, total) {
   return Math.max(0, Math.min(100, p));
 }
 
+import ChartsView from "./components/ChartsView";
+
 export default function App() {
   const [themeId, setThemeId] = useState(THEMES[0].id);
   const [variantId, setVariantId] = useState(THEMES[0].variants[0].id);
   const [selected, setSelected] = useState(reservoirsMock[0]);
+  const [showCharts, setShowCharts] = useState(false);
 
   const currentTheme = THEMES.find((t) => t.id === themeId) || THEMES[0];
   const currentVariant = currentTheme.variants.find((v) => v.id === variantId) || currentTheme.variants[0];
@@ -123,103 +126,112 @@ export default function App() {
         variantId={variantId}
         setVariantId={setVariantId}
         currentTheme={currentTheme}
+        showCharts={showCharts}
+        setShowCharts={setShowCharts}
       />
 
       <main className="container">
         <Hero theme={currentTheme} variant={currentVariant} />
-        <section className="kpi-grid">
-          {kpisMock.map((k) => (
-            <KpiCard key={k.label} {...k} />
-          ))}
-        </section>
 
-        <section className="layout-2col">
-          <Card className="map-card">
-            <CardHeader
-              title="Mapa de embalses"
-              subtitle="Estado actual, filtrable por cuenca"
-            />
-            <MapPlaceholder />
-          </Card>
+        {showCharts ? (
+          <ChartsView />
+        ) : (
+          <>
+            <section className="kpi-grid">
+              {kpisMock.map((k) => (
+                <KpiCard key={k.label} {...k} />
+              ))}
+            </section>
 
-          <Card className="list-card">
-            <CardHeader
-              title="Embalses destacados"
-              subtitle="Selecciona uno para ver detalle"
-            />
-            <div className="list">
-              {reservoirsMock.map((r) => {
-                const p = pct(r.current, r.total);
-                const isActive = r.name === selected.name;
-                return (
-                  <button
-                    key={r.name}
-                    className={`list-item ${isActive ? "active" : ""}`}
-                    onClick={() => setSelected(r)}
-                  >
-                    <div className="list-item-main">
-                      <div className="list-title">{r.name}</div>
-                      <div className="list-subtitle">{r.basin}</div>
-                    </div>
-                    <div className="list-item-right">
-                      <div className="pill">{p.toFixed(0)}%</div>
-                      {r.electric && <div className="tag">Hidroeléctrico</div>}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </Card>
-        </section>
+            <section className="layout-2col">
+              <Card className="map-card">
+                <CardHeader
+                  title="Mapa de embalses"
+                  subtitle="Estado actual, filtrable por cuenca"
+                />
+                <MapPlaceholder />
+              </Card>
 
-        <section className="layout-2col">
-          <Card>
-            <CardHeader
-              title={`Detalle: ${selected.name}`}
-              subtitle={`${selected.basin} · Capacidad ${selected.total} hm³`}
-            />
+              <Card className="list-card">
+                <CardHeader
+                  title="Embalses destacados"
+                  subtitle="Selecciona uno para ver detalle"
+                />
+                <div className="list">
+                  {reservoirsMock.map((r) => {
+                    const p = pct(r.current, r.total);
+                    const isActive = r.name === selected.name;
+                    return (
+                      <button
+                        key={r.name}
+                        className={`list-item ${isActive ? "active" : ""}`}
+                        onClick={() => setSelected(r)}
+                      >
+                        <div className="list-item-main">
+                          <div className="list-title">{r.name}</div>
+                          <div className="list-subtitle">{r.basin}</div>
+                        </div>
+                        <div className="list-item-right">
+                          <div className="pill">{p.toFixed(0)}%</div>
+                          {r.electric && <div className="tag">Hidroeléctrico</div>}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </Card>
+            </section>
 
-            <div className="detail">
-              <div className="detail-metric">
-                <div className="detail-label">Agua actual</div>
-                <div className="detail-value">{selected.current} hm³</div>
-              </div>
-              <div className="detail-metric">
-                <div className="detail-label">Porcentaje llenado</div>
-                <div className="detail-value">{selectedPct}%</div>
-              </div>
-              <div className="detail-metric">
-                <div className="detail-label">Uso eléctrico</div>
-                <div className="detail-value">{selected.electric ? "Sí" : "No"}</div>
-              </div>
+            <section className="layout-2col">
+              <Card>
+                <CardHeader
+                  title={`Detalle: ${selected.name}`}
+                  subtitle={`${selected.basin} · Capacidad ${selected.total} hm³`}
+                />
 
-              <ProgressBar value={Number(selectedPct)} />
-            </div>
+                <div className="detail">
+                  <div className="detail-metric">
+                    <div className="detail-label">Agua actual</div>
+                    <div className="detail-value">{selected.current} hm³</div>
+                  </div>
+                  <div className="detail-metric">
+                    <div className="detail-label">Porcentaje llenado</div>
+                    <div className="detail-value">{selectedPct}%</div>
+                  </div>
+                  <div className="detail-metric">
+                    <div className="detail-label">Uso eléctrico</div>
+                    <div className="detail-value">{selected.electric ? "Sí" : "No"}</div>
+                  </div>
 
-            <div className="actions">
-              <button className="btn primary">Comparar años</button>
-              <button className="btn ghost">Descargar CSV</button>
-            </div>
-          </Card>
+                  <ProgressBar value={Number(selectedPct)} />
+                </div>
 
-          <Card>
-            <CardHeader
-              title="Evolución temporal"
-              subtitle="Histórico desde 1988"
-            />
-            <ChartPlaceholder />
-          </Card>
-        </section>
+                <div className="actions">
+                  <button className="btn primary">Comparar años</button>
+                  <button className="btn ghost">Descargar CSV</button>
+                </div>
+              </Card>
 
-        <section>
-          <Card>
-            <CardHeader
-              title="Tabla semanal"
-              subtitle="Últimas mediciones"
-            />
-            <SimpleTable />
-          </Card>
-        </section>
+              <Card>
+                <CardHeader
+                  title="Evolución temporal"
+                  subtitle="Histórico desde 1988"
+                />
+                <ChartPlaceholder />
+              </Card>
+            </section>
+
+            <section>
+              <Card>
+                <CardHeader
+                  title="Tabla semanal"
+                  subtitle="Últimas mediciones"
+                />
+                <SimpleTable />
+              </Card>
+            </section>
+          </>
+        )}
       </main>
 
       <Footer />
@@ -227,7 +239,7 @@ export default function App() {
   );
 }
 
-function Header({ themeId, setThemeId, variantId, setVariantId, currentTheme }) {
+function Header({ themeId, setThemeId, variantId, setVariantId, currentTheme, showCharts, setShowCharts }) {
   return (
     <header className="header">
       <div className="header-left">
@@ -235,6 +247,23 @@ function Header({ themeId, setThemeId, variantId, setVariantId, currentTheme }) 
         <div>
           <div className="brand">Agua en Embalses</div>
           <div className="brand-sub">España · 1988–2025</div>
+        </div>
+      </div>
+
+      <div className="header-center">
+        <div className="view-toggle">
+          <button
+            className={`toggle-btn ${!showCharts ? "active" : ""}`}
+            onClick={() => setShowCharts(false)}
+          >
+            Dashboard
+          </button>
+          <button
+            className={`toggle-btn ${showCharts ? "active" : ""}`}
+            onClick={() => setShowCharts(true)}
+          >
+            Gráficos
+          </button>
         </div>
       </div>
 
